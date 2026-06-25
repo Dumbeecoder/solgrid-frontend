@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolGrid — Decentralized Node Network</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-dark: #0F6E56;
+    --bg: #ffffff;
+    --bg2: #f7f8f9;
+    --bg3: #f0f1f2;
+    --text: #1a1a1a;
+    --text2: #6b7280;
+    --text3: #9ca3af;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.15);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg3); color: var(--text); }
+  nav { background: var(--bg); border-bottom: 0.5px solid var(--border2); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; color: var(--text); text-decoration: none; }
+  .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { font-size: 13px; color: var(--text2); text-decoration: none; cursor: pointer; }
+  .nav-links a.active { color: var(--text); font-weight: 500; }
+  .btn-connect { background: var(--green); color: white; border: none; border-radius: var(--radius); padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .hero { background: var(--bg); border-bottom: 0.5px solid var(--border); padding: 4rem 2rem 3rem; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .hero-label { font-size: 11px; letter-spacing: 0.1em; color: var(--text3); text-transform: uppercase; margin-bottom: 1rem; }
+  .hero-title { font-size: 42px; font-weight: 600; line-height: 1.15; color: var(--text); margin-bottom: 1rem; }
+  .hero-title span { color: var(--green); }
+  .hero-sub { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 2rem; max-width: 420px; }
+  .hero-actions { display: flex; gap: 12px; }
+  .btn-primary { background: var(--green); color: white; border: none; border-radius: var(--radius); padding: 12px 24px; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .btn-secondary { background: transparent; color: var(--text); border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 12px 24px; font-size: 14px; cursor: pointer; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .hero-stat { background: var(--bg2); border-radius: var(--radius-lg); padding: 1.25rem; border: 0.5px solid var(--border); }
+  .hero-stat-value { font-size: 28px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .hero-stat-value.green { color: var(--green); }
+  .hero-stat-label { font-size: 12px; color: var(--text2); }
+  .metrics-bar { background: var(--bg); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); padding: 1.5rem 2rem; }
+  .metrics-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .metric { text-align: center; }
+  .metric-value { font-size: 24px; font-weight: 600; color: var(--text); }
+  .metric-value.green { color: var(--green); }
+  .metric-label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+  .how { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-title { font-size: 11px; letter-spacing: 0.1em; color: var(--text3); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .section-heading { font-size: 28px; font-weight: 600; color: var(--text); margin-bottom: 2.5rem; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .step { background: var(--bg); border-radius: var(--radius-lg); padding: 1.5rem; border: 0.5px solid var(--border); }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--green-light); color: var(--green-dark); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  .step-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .explorer { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .explorer-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .explorer-title { font-size: 18px; font-weight: 500; color: var(--text); }
+  .node-table { background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); overflow: hidden; }
+  .node-table-header { display: grid; grid-template-columns: 40px 1fr 140px 100px 80px 80px; gap: 1rem; padding: 10px 1.25rem; background: var(--bg2); border-bottom: 0.5px solid var(--border); }
+  .node-table-header span { font-size: 11px; color: var(--text3); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+  .node-row { display: grid; grid-template-columns: 40px 1fr 140px 100px 80px 80px; gap: 1rem; padding: 14px 1.25rem; border-bottom: 0.5px solid var(--border); align-items: center; }
+  .node-row:last-child { border-bottom: none; }
+  .node-row:hover { background: var(--bg2); }
+  .node-rank { font-size: 13px; color: var(--text3); font-weight: 500; }
+  .node-info { min-width: 0; }
+  .node-id { font-size: 12px; font-family: monospace; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .node-wallet { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .node-status { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .status-dot.synced { background: var(--green); }
+  .status-dot.pending { background: var(--text3); }
+  .status-text.synced { color: var(--green); }
+  .status-text.pending { color: var(--text3); }
+  .node-type { font-size: 11px; color: var(--text2); background: var(--bg2); padding: 3px 10px; border-radius: 20px; border: 0.5px solid var(--border); display: inline-block; }
+  .node-points { font-size: 14px; font-weight: 500; color: var(--green); }
+  .node-uptime { font-size: 13px; color: var(--text2); }
+  .cta { background: var(--bg); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); padding: 4rem 2rem; }
+  .cta-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+  .cta-title { font-size: 28px; font-weight: 600; color: var(--text); margin-bottom: 1rem; }
+  .cta-sub { font-size: 15px; color: var(--text2); line-height: 1.7; margin-bottom: 2rem; }
+  .cta-requirements { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; }
+  .req { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text2); }
+  .req-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  footer { padding: 2rem; text-align: center; font-size: 12px; color: var(--text3); border-top: 0.5px solid var(--border); background: var(--bg); }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="#"><div class="nav-dot"></div>SolGrid</a>
+  <div class="nav-links">
+    <a class="active">Dashboard</a>
+    <a>Explorer</a>
+    <a>Leaderboard</a>
+    <a>Docs</a>
+  </div>
+  <button class="btn-connect">Connect wallet</button>
+</nav>
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">Solana DePIN network</div>
+      <h1 class="hero-title">Run a node.<br><span>Earn SOL.</span></h1>
+      <p class="hero-sub">Point your prover at any synced Solana RPC. Pass challenges every 5 minutes. Claim weekly rewards on-chain. No local node required.</p>
+      <div class="hero-actions">
+        <button class="btn-primary">Register my node</button>
+        <button class="btn-secondary">Download prover</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-value">24</div><div class="hero-stat-label">Active nodes</div></div>
+      <div class="hero-stat"><div class="hero-stat-value green">12.5 SOL</div><div class="hero-stat-label">Weekly reward pool</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">98.4%</div><div class="hero-stat-label">Challenge pass rate</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">48,320</div><div class="hero-stat-label">Total points issued</div></div>
+    </div>
+  </div>
+</div>
+<div class="metrics-bar">
+  <div class="metrics-inner">
+    <div class="metric"><div class="metric-value">24</div><div class="metric-label">Nodes online</div></div>
+    <div class="metric"><div class="metric-value green">12.5 SOL</div><div class="metric-label">This week pool</div></div>
+    <div class="metric"><div class="metric-value">4d 12h</div><div class="metric-label">Next snapshot</div></div>
+    <div class="metric"><div class="metric-value">98.4%</div><div class="metric-label">Network pass rate</div></div>
+  </div>
+</div>
+<div class="how">
+  <div class="section-title">How it works</div>
+  <div class="section-heading">Three steps to earn</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-title">Connect wallet & hold SGRID</div><div class="step-desc">Connect your Phantom or any Solana wallet. Hold 1,000,000 SGRID tokens to activate earning. No staking lockup.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-title">Run the prover</div><div class="step-desc">Download the prover binary. Point it at any synced Solana RPC — public endpoints work fine. No local node needed.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-title">Pass challenges & claim SOL</div><div class="step-desc">Every 5 minutes the prover answers a random chain challenge. Points accrue weekly and convert to SOL you claim on-chain.</div></div>
+  </div>
+</div>
+<div class="explorer">
+  <div class="explorer-header"><div class="explorer-title">Node explorer</div></div>
+  <div class="node-table">
+    <div class="node-table-header"><span>#</span><span>Node</span><span>Status</span><span>Type</span><span>Points</span><span>Uptime</span></div>
+    <div class="node-row"><div class="node-rank">1</div><div class="node-info"><div class="node-id">51f3e4e4-2899-44a1-b8de-bb9ed5555ef0</div><div class="node-wallet">0x11b0...c41e</div></div><div class="node-status"><div class="status-dot synced"></div><span class="status-text synced">Synced</span></div><div><span class="node-type">SOL Full</span></div><div class="node-points">1,240</div><div class="node-uptime">9.1h</div></div>
+    <div class="node-row"><div class="node-rank">2</div><div class="node-info"><div class="node-id">9ff3a02d-0635-4514-b774-41a073595ced</div><div class="node-wallet">0x36e9...2398</div></div><div class="node-status"><div class="status-dot synced"></div><span class="status-text synced">Synced</span></div><div><span class="node-type">SOL Full</span></div><div class="node-points">847</div><div class="node-uptime">6.2h</div></div>
+    <div class="node-row"><div class="node-rank">3</div><div class="node-info"><div class="node-id">435e0d04-8cc0-4c24-9123-dbb93efa0cef</div><div class="node-wallet">0xf112...dfb6</div></div><div class="node-status"><div class="status-dot synced"></div><span class="status-text synced">Synced</span></div><div><span class="node-type">SOL Full</span></div><div class="node-points">980</div><div class="node-uptime">7.4h</div></div>
+    <div class="node-row"><div class="node-rank">4</div><div class="node-info"><div class="node-id">abf86dbf-38f1-471e-9729-b6a3779927bb</div><div class="node-wallet">0xe93f...668d</div></div><div class="node-status"><div class="status-dot pending"></div><span class="status-text pending">Pending</span></div><div><span class="node-type">SOL Fast</span></div><div class="node-points">50</div><div class="node-uptime">0.0h</div></div>
+    <div class="node-row"><div class="node-rank">5</div><div class="node-info"><div class="node-id">2ebe6c26-e429-4a9f-958d-9ff000e5593a</div><div class="node-wallet">0x9751...5e32</div></div><div class="node-status"><div class="status-dot pending"></div><span class="status-text pending">Pending</span></div><div><span class="node-type">SOL Fast</span></div><div class="node-points">50</div><div class="node-uptime">0.0h</div></div>
+  </div>
+</div>
+<div class="cta">
+  <div class="cta-inner">
+    <div class="cta-title">Start earning today</div>
+    <p class="cta-sub">Join the SolGrid network. Run a prover, pass challenges, earn SOL weekly. Only 24 nodes active — you are still early.</p>
+    <div class="cta-requirements">
+      <div class="req"><div class="req-dot"></div>Hold 1M SGRID</div>
+      <div class="req"><div class="req-dot"></div>Any Solana RPC</div>
+      <div class="req"><div class="req-dot"></div>Earn SOL weekly</div>
+    </div>
+    <button class="btn-primary">Register my node</button>
+  </div>
+</div>
+<footer>SolGrid — Decentralized Solana Infrastructure Network · 2026</footer>
+</body>
+</html>
