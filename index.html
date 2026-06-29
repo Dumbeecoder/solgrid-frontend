@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,11 +6,24 @@
 <title>SolGrid — Run a Node. Earn SOL.</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--green:#1D9E75;--gl:#E1F5EE;--gd:#0F6E56;--bg:#fff;--bg2:#f7f8fa;--bg3:#f0f2f4;--text:#111827;--t2:#6b7280;--t3:#9ca3af;--b:rgba(0,0,0,0.07);--b2:rgba(0,0,0,0.13);--r:8px;--rl:12px;--rxl:16px}
+:root{
+  --green:#1D9E75;--gl:#E1F5EE;--gd:#0F6E56;
+  --bg:#fff;--bg2:#f7f8fa;--bg3:#f0f2f4;
+  --text:#111827;--t2:#6b7280;--t3:#9ca3af;
+  --b:rgba(0,0,0,0.07);--b2:rgba(0,0,0,0.13);
+  --r:8px;--rl:12px;--rxl:16px;
+  --amber:#E8A020;--amberL:#FFF8E7;--amberD:#7A5C00;
+  --purple:#6B5CE7;--purpleL:#F0EFFE;--purpleD:#3D2FC0;
+  --coral:#E8593C;--coralL:#FAECE7;
+}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text)}
 a{text-decoration:none;color:inherit}
+
+/* ── Notify bar ── */
 .notify{background:#FFF8E7;border-bottom:0.5px solid #F5D06B;padding:10px 1rem;text-align:center;font-size:12px;color:#7A5C00;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
 .notify-x{cursor:pointer;opacity:0.5;font-size:16px}
+
+/* ── Nav ── */
 nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--text)}
 .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
@@ -27,8 +40,11 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
 .nav-drawer a{font-size:14px;color:var(--t2);cursor:pointer;padding:12px 0;border-bottom:0.5px solid var(--b);display:block}
 .nav-drawer a.active{color:var(--text);font-weight:500}
 .nav-drawer a:last-child{border-bottom:none}
-.section{display:none}
-.section.active{display:block}
+
+/* ── Sections ── */
+.section{display:none}.section.active{display:block}
+
+/* ── Dashboard banner ── */
 .explain-banner{background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);padding:2rem 1.25rem;color:white}
 .explain-inner{max-width:1080px;margin:0 auto}
 .explain-tag{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.7;margin-bottom:0.75rem}
@@ -40,11 +56,15 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
 .explain-card-icon{font-size:20px;margin-bottom:6px}
 .explain-card-title{font-size:13px;font-weight:600;margin-bottom:4px}
 .explain-card-desc{font-size:12px;opacity:0.8;line-height:1.5}
+
+/* ── Stats bar ── */
 .stats-bar{background:var(--bg);border-bottom:0.5px solid var(--b);padding:1.25rem}
 .stats-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1rem;text-align:center}
 .stat-val{font-size:22px;font-weight:700;color:var(--text)}
 .stat-val.green{color:var(--green)}
 .stat-lbl{font-size:11px;color:var(--t2);margin-top:3px}
+
+/* ── Dashboard body ── */
 .dash-body{max-width:1080px;margin:0 auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
 .card{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);overflow:hidden}
 .card-head{padding:0.875rem 1rem;border-bottom:0.5px solid var(--b);display:flex;align-items:center;justify-content:space-between}
@@ -52,10 +72,14 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
 .live-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:var(--gl);padding:3px 8px;border-radius:20px}
 .live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ── Empty states ── */
 .empty{padding:2.5rem 1rem;text-align:center}
 .empty-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:5px}
 .empty-sub{font-size:12px;color:var(--t2);margin-bottom:1rem}
 .btn-outline{background:transparent;color:var(--text);border:0.5px solid var(--b2);border-radius:var(--r);padding:8px 16px;font-size:12px;cursor:pointer}
+
+/* ── Sidebar ── */
 .sidebar-card{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:1rem}
 .sc-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:0.875rem}
 .sc-step{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start}
@@ -67,6 +91,124 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
 .rc-label{font-size:11px;color:var(--t2);margin-bottom:4px}
 .rc-value{font-size:20px;font-weight:700;color:var(--text);margin-bottom:3px}
 .rc-note{font-size:11px;color:var(--t3)}
+
+/* ── DAILY EARNINGS WIDGET ── */
+.earnings-widget{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);overflow:hidden}
+.ew-head{padding:0.875rem 1rem;border-bottom:0.5px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.ew-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.ew-cell{padding:1rem;border-right:0.5px solid var(--b)}
+.ew-cell:nth-child(even){border-right:none}
+.ew-cell:nth-child(3),.ew-cell:nth-child(4){border-top:0.5px solid var(--b)}
+.ew-label{font-size:11px;color:var(--t2);margin-bottom:4px}
+.ew-val{font-size:18px;font-weight:700;color:var(--text)}
+.ew-val.up{color:var(--green)}
+.ew-sub{font-size:10px;color:var(--t3);margin-top:2px}
+.ew-sparkline{padding:0 1rem 1rem;position:relative;height:60px}
+.sparkline-bar{position:absolute;bottom:0;border-radius:2px 2px 0 0;background:var(--gl)}
+.sparkline-bar.today{background:var(--green)}
+
+/* ── NODE TIERS ── */
+.tiers-wrap{max-width:1080px;margin:0 auto;padding:1.25rem}
+.tiers-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px}
+.tiers-sub{font-size:12px;color:var(--t2);margin-bottom:1.5rem}
+.tiers-grid{display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:1.5rem}
+.tier-card{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:1.25rem;position:relative}
+.tier-card.popular{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+.tier-popular-badge{position:absolute;top:-1px;right:16px;background:var(--green);color:white;font-size:10px;font-weight:600;padding:3px 10px;border-radius:0 0 6px 6px}
+.tier-icon{font-size:24px;margin-bottom:8px}
+.tier-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px}
+.tier-nodes{font-size:12px;color:var(--t2);margin-bottom:1rem}
+.tier-price{font-size:24px;font-weight:700;color:var(--text);margin-bottom:4px}
+.tier-price span{font-size:13px;font-weight:400;color:var(--t2)}
+.tier-features{list-style:none;margin-bottom:1.25rem}
+.tier-features li{font-size:12px;color:var(--t2);padding:5px 0;border-bottom:0.5px solid var(--b);display:flex;align-items:center;gap:6px}
+.tier-features li:last-child{border-bottom:none}
+.tf-check{color:var(--green);font-size:14px;flex-shrink:0}
+.tf-x{color:var(--t3);font-size:14px;flex-shrink:0}
+.tier-cta{width:100%;border:none;border-radius:var(--r);padding:10px;font-size:13px;font-weight:500;cursor:pointer}
+.tier-cta.outline{background:transparent;color:var(--text);border:0.5px solid var(--b2)}
+.tier-cta.filled{background:var(--green);color:white}
+.tier-cta.premium{background:#111827;color:white}
+
+/* ── PROFITABILITY CALCULATOR ── */
+.calc-wrap{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);overflow:hidden;margin-bottom:1rem}
+.calc-head{padding:0.875rem 1rem;border-bottom:0.5px solid var(--b);display:flex;align-items:center;gap:8px}
+.calc-icon{font-size:16px}
+.calc-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.calc-field{display:flex;flex-direction:column;gap:6px}
+.calc-label{font-size:11px;color:var(--t2);font-weight:500}
+.calc-input{padding:10px 12px;border:0.5px solid var(--b2);border-radius:var(--r);font-size:14px;font-weight:600;color:var(--text);background:var(--bg2);outline:none;width:100%}
+.calc-input:focus{border-color:var(--green);background:var(--bg)}
+.calc-slider{width:100%;accent-color:var(--green);margin-top:4px}
+.calc-results{background:linear-gradient(135deg,#0F6E56,#1D9E75);border-radius:var(--rl);padding:1.25rem;color:white}
+.cr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.cr-cell{}
+.cr-label{font-size:11px;opacity:0.75;margin-bottom:4px}
+.cr-val{font-size:22px;font-weight:700}
+.cr-sub{font-size:10px;opacity:0.65;margin-top:2px}
+.cr-note{font-size:11px;opacity:0.75;line-height:1.5;border-top:0.5px solid rgba(255,255,255,0.2);padding-top:0.875rem}
+.calc-assumptions{display:flex;flex-direction:column;gap:6px}
+.calc-assumption{display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.ca-label{color:var(--t2)}
+.ca-val{color:var(--text);font-weight:500}
+
+/* ── REFERRAL ── */
+.referral-wrap{max-width:1080px;margin:0 auto;padding:1.25rem}
+.ref-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px}
+.ref-sub{font-size:12px;color:var(--t2);margin-bottom:1.5rem}
+.ref-hero{background:linear-gradient(135deg,#0F6E56,#1D9E75);border-radius:var(--rl);padding:1.5rem;color:white;margin-bottom:1rem;text-align:center}
+.ref-hero-title{font-size:22px;font-weight:700;margin-bottom:6px}
+.ref-hero-sub{font-size:13px;opacity:0.85;margin-bottom:1.25rem}
+.ref-link-box{background:rgba(255,255,255,0.15);border-radius:var(--r);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:1rem}
+.ref-link-url{font-size:12px;font-family:monospace;color:rgba(255,255,255,0.9);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.ref-copy-btn{background:rgba(255,255,255,0.2);color:white;border:none;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.ref-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem}
+.ref-stat{background:rgba(255,255,255,0.1);border-radius:var(--r);padding:0.875rem;text-align:center}
+.ref-stat-val{font-size:20px;font-weight:700}
+.ref-stat-label{font-size:10px;opacity:0.75;margin-top:2px}
+.ref-how{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:1.25rem;margin-bottom:1rem}
+.ref-how-title{font-size:13px;font-weight:600;margin-bottom:1rem}
+.ref-steps{display:grid;grid-template-columns:1fr;gap:10px}
+.ref-step{display:flex;gap:10px;align-items:flex-start}
+.ref-step-num{width:28px;height:28px;border-radius:50%;background:var(--gl);color:var(--gd);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ref-step-text{font-size:12px;color:var(--t2);line-height:1.5;padding-top:5px}
+.ref-step-text strong{color:var(--text)}
+.ref-history{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);overflow:hidden}
+.ref-history-head{padding:0.875rem 1rem;border-bottom:0.5px solid var(--b)}
+.ref-history-empty{padding:2rem;text-align:center;font-size:12px;color:var(--t3)}
+
+/* ── PAYOUT HISTORY ── */
+.payout-table-wrap{overflow-x:auto}
+.payout-table{width:100%;border-collapse:collapse;font-size:12px}
+.payout-table th{padding:8px 12px;text-align:left;font-size:11px;color:var(--t2);font-weight:500;border-bottom:0.5px solid var(--b);background:var(--bg2)}
+.payout-table td{padding:10px 12px;border-bottom:0.5px solid var(--b);color:var(--text)}
+.payout-table tr:last-child td{border-bottom:none}
+.payout-table tr:hover td{background:var(--bg2)}
+.payout-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.ps-paid{background:var(--gl);color:var(--gd)}
+.ps-pending{background:var(--amberL);color:var(--amberD)}
+.tx-link{color:var(--green);font-family:monospace;font-size:11px}
+.tx-link:hover{text-decoration:underline}
+.payout-empty{padding:2.5rem;text-align:center}
+
+/* ── NODE HEALTH BADGES ── */
+.health-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.hb-online{background:var(--gl);color:var(--gd)}
+.hb-offline{background:#FEE2E2;color:#991B1B}
+.hb-warn{background:var(--amberL);color:var(--amberD)}
+.uptime-bar{height:4px;border-radius:2px;background:var(--bg3);overflow:hidden;margin-top:4px}
+.uptime-fill{height:100%;border-radius:2px;background:var(--green)}
+.node-row{display:flex;align-items:center;justify-content:space-between;padding:10px 1rem;border-bottom:0.5px solid var(--b)}
+.node-row:last-child{border-bottom:none}
+.node-id{font-size:12px;font-family:monospace;color:var(--text)}
+.node-meta{font-size:11px;color:var(--t2);margin-top:2px}
+.node-stats{display:flex;gap:12px;align-items:center}
+.ns-item{text-align:right}
+.ns-val{font-size:13px;font-weight:600;color:var(--text)}
+.ns-label{font-size:10px;color:var(--t3)}
+
+/* ── Explorer ── */
 .explorer-wrap,.lb-wrap,.guide-wrap{max-width:1080px;margin:0 auto;padding:1.25rem}
 .exp-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;gap:1rem}
 .exp-title,.lb-title,.guide-title{font-size:18px;font-weight:700;color:var(--text)}
@@ -76,6 +218,8 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
 .search-bar input{flex:1;padding:8px 12px;border:0.5px solid var(--b2);border-radius:var(--r);font-size:13px;background:var(--bg);color:var(--text);outline:none;min-width:0}
 .search-bar input:focus{border-color:var(--green)}
 .lb-empty{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:3rem 1rem;text-align:center}
+
+/* ── Guide ── */
 .guide-sub{font-size:13px;color:var(--t2);margin-bottom:1.5rem;line-height:1.6;margin-top:0.5rem}
 .os-toggle{display:flex;background:var(--bg2);border:0.5px solid var(--b2);border-radius:var(--r);padding:3px;margin-bottom:1.5rem;width:100%}
 .os-btn{flex:1;padding:8px 6px;border-radius:6px;font-size:12px;cursor:pointer;border:none;background:transparent;color:var(--t2);font-weight:500;transition:all 0.15s;text-align:center}
@@ -92,12 +236,22 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
 .success-box{background:var(--gl);border-radius:var(--rl);padding:1.25rem;text-align:center;margin-top:1rem}
 .success-box-title{font-size:15px;font-weight:600;color:var(--gd);margin-bottom:6px}
 .success-box-sub{font-size:12px;color:var(--gd);margin-bottom:1rem;line-height:1.5}
+
+/* ── Modal ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg);border-radius:var(--rxl);padding:1.5rem;width:100%;max-width:420px;border:0.5px solid var(--b2)}
 .modal-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:0.5rem}
 .modal-sub{font-size:13px;color:var(--t2);margin-bottom:1.25rem;line-height:1.6}
 .modal-close-btn{width:100%;background:transparent;color:var(--t2);border:0.5px solid var(--b2);border-radius:var(--r);padding:10px;font-size:13px;cursor:pointer;margin-top:0.875rem}
+
+/* ── Tab sub-nav ── */
+.sub-tabs{display:flex;gap:0;background:var(--bg);border-bottom:0.5px solid var(--b);overflow-x:auto}
+.sub-tab{flex-shrink:0;padding:10px 18px;font-size:13px;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.sub-tab.active{color:var(--text);font-weight:500;border-bottom-color:var(--green)}
+.sub-section{display:none}.sub-section.active{display:block}
+
+/* ── Responsive ── */
 @media(min-width:768px){
   .explain-banner{padding:3rem 2.5rem}
   .explain-title{font-size:38px}
@@ -108,30 +262,41 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
   .dash-sidebar{width:340px;flex-shrink:0}
   .nav-desktop{display:flex}
   .hamburger{display:none}
-  .explorer-wrap,.lb-wrap,.guide-wrap{padding:2rem 2.5rem}
+  .explorer-wrap,.lb-wrap,.guide-wrap,.tiers-wrap,.referral-wrap{padding:2rem 2.5rem}
   .os-btn{font-size:13px;padding:7px 20px}
   .os-toggle{width:fit-content}
+  .tiers-grid{grid-template-columns:repeat(3,1fr)}
+  .ref-steps{grid-template-columns:repeat(3,1fr)}
+  .calc-body{flex-direction:row;gap:1.5rem}
+  .calc-inputs{flex:1}
+  .calc-output{flex:1}
 }
 @media(max-width:767px){
   .nav-desktop{display:none}
   .hamburger{display:flex}
   .badge{display:none}
   .dash-sidebar{width:100%}
+  .cr-grid{grid-template-columns:1fr 1fr}
+  .calc-row{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
+
 <div class="notify" id="nb">
-  SolGrid early access — token launch coming soon.
-  <span class="notify-x" onclick="document.getElementById('nb').style.display='none'">x</span>
+  ⚡ SolGrid early access — token launch coming soon. Run your node now to earn from day one.
+  <span class="notify-x" onclick="document.getElementById('nb').style.display='none'">✕</span>
 </div>
+
 <nav>
   <div class="logo"><div class="logo-dot"></div>SolGrid</div>
   <div class="nav-desktop">
     <a class="active" onclick="show('dashboard',this)">Dashboard</a>
     <a onclick="show('explorer',this)">Explorer</a>
     <a onclick="show('leaderboard',this)">Leaderboard</a>
-    <a onclick="show('guide',this)">Setup Guide</a>
+    <a onclick="show('tiers',this)">Node tiers</a>
+    <a onclick="show('referral',this)">Referral</a>
+    <a onclick="show('guide',this)">Setup guide</a>
   </div>
   <div class="nav-right">
     <span class="badge">Mainnet soon</span>
@@ -139,67 +304,220 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
     <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
   </div>
 </nav>
+
 <div class="nav-drawer" id="drawer">
   <a class="active" onclick="show('dashboard',this);closeMenu()">Dashboard</a>
   <a onclick="show('explorer',this);closeMenu()">Explorer</a>
   <a onclick="show('leaderboard',this);closeMenu()">Leaderboard</a>
-  <a onclick="show('guide',this);closeMenu()">Setup Guide</a>
+  <a onclick="show('tiers',this);closeMenu()">Node tiers</a>
+  <a onclick="show('referral',this);closeMenu()">Referral</a>
+  <a onclick="show('guide',this);closeMenu()">Setup guide</a>
 </div>
+
+<!-- ═══════════════════════════════ DASHBOARD ═══════════════════════════════ -->
 <div class="section active" id="sec-dashboard">
   <div class="explain-banner">
     <div class="explain-inner">
       <div class="explain-tag">What is SolGrid?</div>
       <div class="explain-title">Your computer becomes a<br><span>crypto-earning machine.</span></div>
-      <div class="explain-desc">Think of SolGrid like a game where your computer helps check that the Solana blockchain is working correctly. Every 5 minutes, SolGrid asks your computer a question like what happened at block 12345 — your computer answers, proves it knows the answer, and earns points. At the end of every week, those points turn into real SOL sent directly to your wallet. You do not need to be a programmer. Just download a small app, paste two lines of code, and let it run.</div>
+      <div class="explain-desc">Think of SolGrid like a game where your computer helps check that the Solana blockchain is working correctly. Every 5 minutes, SolGrid asks your computer a question — your computer answers, proves it knows the answer, and earns points. At the end of every week, those points turn into real SOL sent directly to your wallet. No mining rig, no energy bills, no technical knowledge needed.</div>
       <div class="explain-cards">
         <div class="explain-card"><div class="explain-card-icon">🖥️</div><div class="explain-card-title">Run a tiny app</div><div class="explain-card-desc">Download the prover — a small program that runs in your terminal. Set it and forget it.</div></div>
-        <div class="explain-card"><div class="explain-card-icon">✅</div><div class="explain-card-title">Pass challenges automatically</div><div class="explain-card-desc">Every 5 minutes it answers a question about the Solana blockchain. No action needed.</div></div>
-        <div class="explain-card"><div class="explain-card-icon">💰</div><div class="explain-card-title">Earn SOL every week</div><div class="explain-card-desc">Points convert to real SOL every Sunday. Claim directly to your Phantom wallet.</div></div>
+        <div class="explain-card"><div class="explain-card-icon">✅</div><div class="explain-card-title">Pass challenges every 5 min</div><div class="explain-card-desc">Your node answers questions about the Solana chain automatically. Every correct answer earns points.</div></div>
+        <div class="explain-card"><div class="explain-card-icon">💰</div><div class="explain-card-title">Earn SOL every week</div><div class="explain-card-desc">Points convert to real SOL every Sunday. Every payout is on-chain — fully verifiable, no trust needed.</div></div>
       </div>
     </div>
   </div>
+
   <div class="stats-bar">
     <div class="stats-inner">
-      <div><div class="stat-val">0</div><div class="stat-lbl">Active nodes</div></div>
-      <div><div class="stat-val green">TBA</div><div class="stat-lbl">Weekly SOL pool</div></div>
-      <div><div class="stat-val">0</div><div class="stat-lbl">Total points</div></div>
-      <div><div class="stat-val">—</div><div class="stat-lbl">Pass rate</div></div>
+      <div><div class="stat-val" id="stat-nodes">0</div><div class="stat-lbl">Active nodes</div></div>
+      <div><div class="stat-val green" id="stat-pool">TBA</div><div class="stat-lbl">Weekly SOL pool</div></div>
+      <div><div class="stat-val" id="stat-points">0</div><div class="stat-lbl">Total points</div></div>
+      <div><div class="stat-val" id="stat-passrate">—</div><div class="stat-lbl">Pass rate</div></div>
     </div>
   </div>
+
   <div class="dash-body">
     <div class="dash-main">
+
+      <!-- Daily earnings widget -->
+      <div class="earnings-widget">
+        <div class="ew-head">
+          <div class="card-title">Network earnings</div>
+          <div class="live-pill"><div class="live-dot"></div>Live</div>
+        </div>
+        <div class="ew-grid">
+          <div class="ew-cell">
+            <div class="ew-label">Today (est.)</div>
+            <div class="ew-val up" id="ew-today">—</div>
+            <div class="ew-sub">SOL earned across all nodes</div>
+          </div>
+          <div class="ew-cell">
+            <div class="ew-label">This week</div>
+            <div class="ew-val" id="ew-week">—</div>
+            <div class="ew-sub">Distributes Sunday 00:00 UTC</div>
+          </div>
+          <div class="ew-cell">
+            <div class="ew-label">Per node today</div>
+            <div class="ew-val up" id="ew-pernode">—</div>
+            <div class="ew-sub">At current pass rate</div>
+          </div>
+          <div class="ew-cell">
+            <div class="ew-label">Points → SOL rate</div>
+            <div class="ew-val" id="ew-rate">—</div>
+            <div class="ew-sub">Updated each Sunday</div>
+          </div>
+        </div>
+        <div class="ew-sparkline" id="sparkline-container">
+          <!-- bars injected by JS -->
+        </div>
+      </div>
+
+      <!-- Profitability calculator (dashboard mini version) -->
+      <div class="calc-wrap">
+        <div class="calc-head">
+          <span class="calc-icon">🧮</span>
+          <div class="card-title">How much could you earn?</div>
+        </div>
+        <div class="calc-body">
+          <div class="calc-inputs" style="display:flex;flex-direction:column;gap:1rem">
+            <div class="calc-field">
+              <div class="calc-label">Number of nodes you plan to run</div>
+              <input class="calc-input" type="number" id="calc-nodes" value="1" min="1" max="100" oninput="calcEarnings()">
+            </div>
+            <div class="calc-field">
+              <div class="calc-label">Expected weekly SOL reward pool</div>
+              <input class="calc-input" type="number" id="calc-pool" value="10" min="1" max="10000" oninput="calcEarnings()" placeholder="e.g. 10">
+            </div>
+            <div class="calc-field">
+              <div class="calc-label">Estimated network node count</div>
+              <input type="range" class="calc-slider" id="calc-network" min="10" max="5000" value="500" oninput="calcNetworkLabel();calcEarnings()">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:2px">
+                <span>10 nodes (early)</span>
+                <span id="calc-network-label">500 nodes</span>
+                <span>5000 nodes</span>
+              </div>
+            </div>
+          </div>
+          <div class="calc-output" style="display:flex;flex-direction:column;gap:0.875rem">
+            <div class="calc-results">
+              <div class="cr-grid">
+                <div class="cr-cell">
+                  <div class="cr-label">Per week</div>
+                  <div class="cr-val" id="cr-week">—</div>
+                  <div class="cr-sub">SOL / week</div>
+                </div>
+                <div class="cr-cell">
+                  <div class="cr-label">Per month</div>
+                  <div class="cr-val" id="cr-month">—</div>
+                  <div class="cr-sub">SOL / month</div>
+                </div>
+                <div class="cr-cell">
+                  <div class="cr-label">Your share</div>
+                  <div class="cr-val" id="cr-share">—</div>
+                  <div class="cr-sub">of network</div>
+                </div>
+                <div class="cr-cell">
+                  <div class="cr-label">ROI (if SOL=$140)</div>
+                  <div class="cr-val" id="cr-usd">—</div>
+                  <div class="cr-sub">USD / month</div>
+                </div>
+              </div>
+              <div class="cr-note">⚡ Estimates assume 95% uptime. Actual rewards depend on pass rate and network size. All payouts are on-chain and verifiable.</div>
+            </div>
+            <div class="calc-assumptions">
+              <div style="font-size:11px;color:var(--t2);font-weight:500;margin-bottom:4px">Assumptions</div>
+              <div class="calc-assumption"><span class="ca-label">SOL price</span><span class="ca-val">$140</span></div>
+              <div class="calc-assumption"><span class="ca-label">Uptime</span><span class="ca-val">95%</span></div>
+              <div class="calc-assumption"><span class="ca-label">Pass rate</span><span class="ca-val">94%</span></div>
+              <div class="calc-assumption"><span class="ca-label">Challenge interval</span><span class="ca-val">Every 5 min</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active nodes list -->
       <div class="card">
         <div class="card-head"><div class="card-title">Active nodes</div><div class="live-pill"><div class="live-dot"></div>Live</div></div>
         <div class="empty">
           <div class="empty-title">No nodes registered yet</div>
           <div class="empty-sub">Be the first node on SolGrid and earn the most points at launch</div>
-          <button class="btn-outline" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[3])">View setup guide →</button>
+          <button class="btn-outline" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[5])">View setup guide →</button>
         </div>
       </div>
+
     </div>
     <div class="dash-sidebar">
       <div class="sidebar-card" style="margin-bottom:1rem">
         <div class="sc-title">Start earning in 3 steps</div>
         <div class="sc-step"><div class="sc-num">1</div><div class="sc-text"><strong>Hold 1M SGRID tokens</strong> — required to earn rewards. Token launching soon.</div></div>
         <div class="sc-step"><div class="sc-num">2</div><div class="sc-text"><strong>Run the prover</strong> — a small terminal app. Works on Mac, Windows, Linux.</div></div>
-        <div class="sc-step"><div class="sc-num">3</div><div class="sc-text"><strong>Earn SOL weekly</strong> — points convert to real SOL every Sunday.</div></div>
-        <button class="btn-block" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[3])">View full setup guide →</button>
+        <div class="sc-step"><div class="sc-num">3</div><div class="sc-text"><strong>Earn SOL weekly</strong> — points convert to real SOL every Sunday. On-chain, verifiable.</div></div>
+        <button class="btn-block" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[5])">View full setup guide →</button>
       </div>
-      <div class="sidebar-card">
+      <div class="sidebar-card" style="margin-bottom:1rem">
         <div class="sc-title">Your estimated reward</div>
         <div class="reward-card"><div class="rc-label">This week</div><div class="rc-value">— SOL</div><div class="rc-note">Connect wallet to see your balance</div></div>
         <button class="btn-block" onclick="openModal()" style="background:transparent;color:var(--green);border:0.5px solid var(--green);margin-top:10px">Connect wallet</button>
       </div>
+      <div class="sidebar-card">
+        <div class="sc-title">Why SolGrid beats cloud mining</div>
+        <div class="sc-step" style="margin-bottom:10px"><div class="sc-num" style="background:#FEF3C7;color:#92400E">✗</div><div class="sc-text"><strong>Cloud mining:</strong> trust a company. No proof your money is actually mining.</div></div>
+        <div class="sc-step"><div class="sc-num">✓</div><div class="sc-text"><strong>SolGrid:</strong> every reward is on-chain. Every payout has a Solana tx link you can verify yourself.</div></div>
+        <button class="btn-block" onclick="show('tiers',document.querySelectorAll('.nav-desktop a')[3])" style="margin-top:12px">See node tiers →</button>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════════════════ EXPLORER ═══════════════════════════════ -->
 <div class="section" id="sec-explorer">
-  <div class="explorer-wrap">
-    <div class="exp-head"><div><div class="exp-title">Node explorer</div><div class="exp-sub">All registered nodes and their stats in real time</div></div><div class="live-pill"><div class="live-dot"></div>Live</div></div>
-    <div class="search-bar"><input type="text" placeholder="Search by node ID or wallet..."><button class="btn-green">Search</button></div>
-    <div class="card"><div class="empty"><div class="empty-title">No nodes registered yet</div><div class="empty-sub">The explorer will populate once nodes come online at launch</div></div></div>
+  <div class="sub-tabs">
+    <div class="sub-tab active" onclick="showSub('explorer','nodes',this)">All nodes</div>
+    <div class="sub-tab" onclick="showSub('explorer','payouts',this)">Payout history</div>
+  </div>
+
+  <div class="sub-section active" id="sub-explorer-nodes">
+    <div class="explorer-wrap">
+      <div class="exp-head">
+        <div><div class="exp-title">Node explorer</div><div class="exp-sub">All registered nodes and their stats in real time</div></div>
+        <div class="live-pill"><div class="live-dot"></div>Live</div>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="node-search" placeholder="Search by node ID or wallet..." oninput="filterNodes()">
+        <button class="btn-green">Search</button>
+      </div>
+      <div class="card" id="nodes-container">
+        <div class="empty">
+          <div class="empty-title">No nodes registered yet</div>
+          <div class="empty-sub">The explorer will populate once nodes come online at launch</div>
+          <button class="btn-outline" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[5])">Set up my node →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-section" id="sub-explorer-payouts">
+    <div class="explorer-wrap">
+      <div class="exp-head">
+        <div><div class="exp-title">Payout history</div><div class="exp-sub">Every on-chain reward transaction — verifiable on Solana explorer</div></div>
+        <div class="live-pill" style="color:#6B5CE7;background:#F0EFFE"><div class="live-dot" style="background:#6B5CE7;animation:none"></div>On-chain</div>
+      </div>
+      <div class="card">
+        <div id="payout-container">
+          <div class="payout-empty">
+            <div style="font-size:28px;margin-bottom:0.75rem">🔗</div>
+            <div class="empty-title">No payouts yet</div>
+            <div class="empty-sub">Every Sunday, earned SOL is distributed on-chain. Each tx is publicly verifiable on Solana explorer.</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- ═══════════════════════════════ LEADERBOARD ═══════════════════════════════ -->
 <div class="section" id="sec-leaderboard">
   <div class="lb-wrap">
     <div class="lb-title">Leaderboard</div>
@@ -207,11 +525,173 @@ nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 1.25rem;d
     <div class="lb-empty">
       <div style="font-size:28px;margin-bottom:0.875rem">🏆</div>
       <div class="empty-title">Leaderboard starts at launch</div>
-      <div class="empty-sub" style="margin-bottom:1.25rem">Register your node now — early nodes will dominate the first leaderboard</div>
-      <button class="btn-green" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[3])">Set up my node →</button>
+      <div class="empty-sub" style="margin-bottom:1.25rem">Register your node now — early nodes dominate the first leaderboard and earn bonus points</div>
+      <button class="btn-green" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[5])">Set up my node →</button>
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════════════════ NODE TIERS ═══════════════════════════════ -->
+<div class="section" id="sec-tiers">
+  <div class="tiers-wrap">
+    <div class="tiers-title">Node tiers</div>
+    <div class="tiers-sub">Run more nodes, earn a higher share of the weekly SOL pool. All tiers earn the same points-per-node — more nodes means more share.</div>
+
+    <div class="tiers-grid">
+      <!-- Starter -->
+      <div class="tier-card">
+        <div class="tier-icon">🌱</div>
+        <div class="tier-name">Starter</div>
+        <div class="tier-nodes">1 – 4 nodes</div>
+        <div class="tier-price">Free <span>to start</span></div>
+        <ul class="tier-features">
+          <li><span class="tf-check">✓</span> 1 prover node</li>
+          <li><span class="tf-check">✓</span> Weekly SOL rewards</li>
+          <li><span class="tf-check">✓</span> Explorer listing</li>
+          <li><span class="tf-check">✓</span> Leaderboard entry</li>
+          <li><span class="tf-x">—</span> Bonus multiplier</li>
+          <li><span class="tf-x">—</span> Priority support</li>
+          <li><span class="tf-x">—</span> Governance weight</li>
+        </ul>
+        <button class="tier-cta outline" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[5])">Get started →</button>
+      </div>
+
+      <!-- Pro -->
+      <div class="tier-card popular">
+        <div class="tier-popular-badge">Most popular</div>
+        <div class="tier-icon">⚡</div>
+        <div class="tier-name">Pro</div>
+        <div class="tier-nodes">5 – 19 nodes</div>
+        <div class="tier-price">Hold 5M <span>SGRID</span></div>
+        <ul class="tier-features">
+          <li><span class="tf-check">✓</span> Up to 19 prover nodes</li>
+          <li><span class="tf-check">✓</span> Weekly SOL rewards</li>
+          <li><span class="tf-check">✓</span> Explorer listing</li>
+          <li><span class="tf-check">✓</span> Leaderboard entry</li>
+          <li><span class="tf-check">✓</span> 1.5× point multiplier</li>
+          <li><span class="tf-check">✓</span> Priority Discord support</li>
+          <li><span class="tf-x">—</span> Governance weight</li>
+        </ul>
+        <button class="tier-cta filled" onclick="openModal()">Connect wallet →</button>
+      </div>
+
+      <!-- Validator -->
+      <div class="tier-card">
+        <div class="tier-icon">🏛️</div>
+        <div class="tier-name">Validator</div>
+        <div class="tier-nodes">20+ nodes</div>
+        <div class="tier-price">Hold 20M <span>SGRID</span></div>
+        <ul class="tier-features">
+          <li><span class="tf-check">✓</span> Unlimited nodes</li>
+          <li><span class="tf-check">✓</span> Weekly SOL rewards</li>
+          <li><span class="tf-check">✓</span> Explorer listing</li>
+          <li><span class="tf-check">✓</span> Leaderboard entry</li>
+          <li><span class="tf-check">✓</span> 2× point multiplier</li>
+          <li><span class="tf-check">✓</span> 1-1 Telegram support</li>
+          <li><span class="tf-check">✓</span> Protocol governance vote</li>
+        </ul>
+        <button class="tier-cta premium" onclick="openModal()">Connect wallet →</button>
+      </div>
+    </div>
+
+    <!-- Full calculator inside Tiers page -->
+    <div class="calc-wrap">
+      <div class="calc-head">
+        <span class="calc-icon">🧮</span>
+        <div class="card-title">Profitability calculator — how much could you earn?</div>
+      </div>
+      <div class="calc-body" style="display:flex;flex-direction:column;gap:1rem">
+        <div class="calc-row">
+          <div class="calc-field">
+            <div class="calc-label">Nodes you plan to run</div>
+            <input class="calc-input" type="number" id="calc-nodes2" value="5" min="1" max="100" oninput="calcEarnings2()">
+          </div>
+          <div class="calc-field">
+            <div class="calc-label">Weekly SOL reward pool (estimate)</div>
+            <input class="calc-input" type="number" id="calc-pool2" value="50" min="1" oninput="calcEarnings2()" placeholder="e.g. 50">
+          </div>
+        </div>
+        <div class="calc-field">
+          <div class="calc-label">Expected network size: <span id="calc-network-label2">500 nodes</span></div>
+          <input type="range" class="calc-slider" id="calc-network2" min="10" max="5000" value="500" oninput="calcNetworkLabel2();calcEarnings2()">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:2px"><span>10 nodes</span><span>5000 nodes</span></div>
+        </div>
+        <div class="calc-results">
+          <div class="cr-grid">
+            <div class="cr-cell"><div class="cr-label">Weekly earnings</div><div class="cr-val" id="cr2-week">—</div><div class="cr-sub">SOL / week</div></div>
+            <div class="cr-cell"><div class="cr-label">Monthly earnings</div><div class="cr-val" id="cr2-month">—</div><div class="cr-sub">SOL / month</div></div>
+            <div class="cr-cell"><div class="cr-label">Your network share</div><div class="cr-val" id="cr2-share">—</div><div class="cr-sub">of rewards</div></div>
+            <div class="cr-cell"><div class="cr-label">USD / month</div><div class="cr-val" id="cr2-usd">—</div><div class="cr-sub">at $140 / SOL</div></div>
+          </div>
+          <div class="cr-note">Tier bonus multipliers are applied automatically. Validator tier (20+ nodes) gives a 2× multiplier on points earned.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:1.25rem">
+      <div style="font-size:13px;font-weight:600;margin-bottom:0.75rem">How the reward pool works</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.7">Every week, a fixed SOL pool is distributed across all active nodes proportionally based on points earned. Points are earned by passing challenges every 5 minutes. The more nodes you run and the higher your uptime, the greater your share. Every distribution is executed by an on-chain Anchor program — no human controls the payouts, no trust required.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ REFERRAL ═══════════════════════════════ -->
+<div class="section" id="sec-referral">
+  <div class="referral-wrap">
+    <div class="ref-title">Referral program</div>
+    <div class="ref-sub">Earn a cut of every node your referrals run — forever, not just for one week.</div>
+
+    <div class="ref-hero">
+      <div class="ref-hero-title">Earn 10% of your referrals' rewards</div>
+      <div class="ref-hero-sub">Every time someone you referred earns SOL, you automatically get 10% of their payout — on top of your own node earnings. No cap. Forever.</div>
+      <div class="ref-link-box">
+        <div class="ref-link-url" id="ref-link-display">solgrid.io/r/YOURCODE — connect wallet to get your link</div>
+        <button class="ref-copy-btn" onclick="copyRefLink()">Copy link</button>
+      </div>
+      <div class="ref-stats-row">
+        <div class="ref-stat"><div class="ref-stat-val" id="ref-count">0</div><div class="ref-stat-label">Referrals</div></div>
+        <div class="ref-stat"><div class="ref-stat-val" id="ref-nodes">0</div><div class="ref-stat-label">Active nodes</div></div>
+        <div class="ref-stat"><div class="ref-stat-val" id="ref-earned">0.00</div><div class="ref-stat-label">SOL earned</div></div>
+      </div>
+    </div>
+
+    <div class="ref-how">
+      <div class="ref-how-title">How it works</div>
+      <div class="ref-steps">
+        <div class="ref-step">
+          <div class="ref-step-num">1</div>
+          <div class="ref-step-text"><strong>Connect your wallet</strong> to get your personal referral link. It's tied to your wallet address.</div>
+        </div>
+        <div class="ref-step">
+          <div class="ref-step-num">2</div>
+          <div class="ref-step-text"><strong>Share your link</strong> in crypto communities, Twitter, Telegram — anywhere node runners hang out.</div>
+        </div>
+        <div class="ref-step">
+          <div class="ref-step-num">3</div>
+          <div class="ref-step-text"><strong>Earn automatically</strong> — every Sunday, 10% of each referred node's payout goes to you on-chain. No claiming needed.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-history card">
+      <div class="ref-history-head"><div class="card-title">Referral activity</div></div>
+      <div class="ref-history-empty">Connect your wallet to see referral activity</div>
+    </div>
+
+    <div style="background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:1.25rem;margin-top:1rem">
+      <div style="font-size:13px;font-weight:600;margin-bottom:0.75rem">Referral rules</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:12px;color:var(--t2);display:flex;gap:8px"><span style="color:var(--green);flex-shrink:0">✓</span>10% of your referrals' weekly SOL payout, paid automatically every Sunday</div>
+        <div style="font-size:12px;color:var(--t2);display:flex;gap:8px"><span style="color:var(--green);flex-shrink:0">✓</span>Stacks with your own node earnings — not a replacement</div>
+        <div style="font-size:12px;color:var(--t2);display:flex;gap:8px"><span style="color:var(--green);flex-shrink:0">✓</span>No cap on referrals or total earnings</div>
+        <div style="font-size:12px;color:var(--t2);display:flex;gap:8px"><span style="color:var(--green);flex-shrink:0">✓</span>Referral payouts are on-chain — verifiable like all SolGrid rewards</div>
+        <div style="font-size:12px;color:var(--t2);display:flex;gap:8px"><span style="color:#E8593C;flex-shrink:0">✗</span>Self-referral not allowed — wallet addresses are checked on-chain</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SETUP GUIDE ═══════════════════════════════ -->
 <div class="section" id="sec-guide">
   <div class="guide-wrap">
     <div class="guide-title">Setup guide</div>
@@ -262,38 +742,37 @@ go build -o prover ./cmd/prover</pre><button class="copy-btn" onclick="cp(this)"
     </div>
     <div class="guide-step">
       <div class="gs-header"><div class="gs-num">4</div><div class="gs-title">Run the prover and start earning</div></div>
-      <div class="gs-desc">Start the prover with your wallet private key. It connects to Solanas free public servers automatically — no extra setup needed.</div>
+      <div class="gs-desc">Start the prover with your wallet private key. It connects to Solana's free public servers automatically.</div>
       <div id="s4mac"><div class="code-block"><pre># Get your key: Phantom > Settings > Security and Privacy > Export Private Key
 export PROVER_PRIVATE_KEY="YOUR_PRIVATE_KEY"
 export NODE_RPC="https://api.mainnet-beta.solana.com"
-export SOLGRID_API="https://api.solgrid.io/api"
+export SOLGRID_API="https://solgrid-api-production.up.railway.app/api"
 export NODE_TYPE="sol-full"
 ./prover</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">🔒 Your key never leaves your computer. It only signs messages to prove the node is yours.</div></div>
       <div id="s4win" style="display:none"><div class="code-block"><pre># Get your key: Phantom > Settings > Security and Privacy > Export Private Key
 $env:PROVER_PRIVATE_KEY="YOUR_PRIVATE_KEY"
 $env:NODE_RPC="https://api.mainnet-beta.solana.com"
-$env:SOLGRID_API="https://api.solgrid.io/api"
+$env:SOLGRID_API="https://solgrid-api-production.up.railway.app/api"
 $env:NODE_TYPE="sol-full"
 .\prover.exe</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">🔒 Your key never leaves your computer. It only signs messages to prove the node is yours.</div></div>
       <div id="s4linux" style="display:none"><div class="code-block"><pre>export PROVER_PRIVATE_KEY="YOUR_PRIVATE_KEY"
 export NODE_RPC="https://api.mainnet-beta.solana.com"
-export SOLGRID_API="https://api.solgrid.io/api"
+export SOLGRID_API="https://solgrid-api-production.up.railway.app/api"
 export NODE_TYPE="sol-full"
 ./prover</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
     </div>
     <div class="guide-step">
       <div class="gs-header"><div class="gs-num">5</div><div class="gs-title">Keep it running 24/7</div></div>
-      <div class="gs-desc">The prover must stay running to earn points. If you close the terminal it stops. Here is how to keep it going.</div>
+      <div class="gs-desc">The prover must stay running to earn points. If you close the terminal it stops.</div>
       <div id="s5mac"><div class="code-block"><pre># Stop Mac from sleeping
 caffeinate -i &
 # You will see every 5 minutes:
-# [2026-06-25] Challenge: slot-hash
-# PASSED +10 pts (total: 240)</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">💡 For 24/7 earning rent a VPS on hetzner.com for around $5 per month and run it there.</div></div>
-      <div id="s5win" style="display:none"><div class="code-block"><pre># Keep PowerShell open or run in background:
-Start-Process -NoNewWindow .\prover.exe
+# [2026-06-29] Challenge: slot-hash
+# PASSED +10 pts (total: 240)</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">💡 For 24/7 earning, rent a VPS on hetzner.com for around $5/month and run it there.</div></div>
+      <div id="s5win" style="display:none"><div class="code-block"><pre>Start-Process -NoNewWindow .\prover.exe
 # You will see every 5 minutes:
-# [2026-06-25] Challenge: slot-hash
-# PASSED +10 pts (total: 240)</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">💡 For 24/7 earning rent a Linux VPS on hetzner.com for around $5 per month.</div></div>
+# [2026-06-29] Challenge: slot-hash
+# PASSED +10 pts (total: 240)</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">💡 For 24/7 earning, rent a Linux VPS on hetzner.com for around $5/month.</div></div>
       <div id="s5linux" style="display:none"><div class="code-block"><pre>sudo nano /etc/systemd/system/solgrid.service
 # Paste this:
 [Unit]
@@ -302,7 +781,7 @@ After=network.target
 [Service]
 Environment=PROVER_PRIVATE_KEY=YOUR_KEY
 Environment=NODE_RPC=https://api.mainnet-beta.solana.com
-Environment=SOLGRID_API=https://api.solgrid.io/api
+Environment=SOLGRID_API=https://solgrid-api-production.up.railway.app/api
 Environment=NODE_TYPE=sol-full
 ExecStart=/root/solgrid-prover/prover
 Restart=always
@@ -313,12 +792,15 @@ sudo systemctl enable solgrid
 sudo systemctl start solgrid</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
     </div>
     <div class="success-box">
-      <div class="success-box-title">You are all set!</div>
-      <div class="success-box-sub">Your node earns points every 5 minutes. Check back every Sunday to claim your SOL rewards.</div>
+      <div class="success-box-title">You're all set!</div>
+      <div class="success-box-sub">Your node earns points every 5 minutes. Check back every Sunday to see your SOL rewards — or share your referral link to earn an extra 10% on top.</div>
       <button class="btn-green" onclick="show('explorer',document.querySelectorAll('.nav-desktop a')[1])">View explorer →</button>
+      <button class="btn-green" onclick="show('referral',document.querySelectorAll('.nav-desktop a')[4])" style="margin-left:8px;background:transparent;color:var(--green);border:0.5px solid var(--green)">Get referral link →</button>
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════════════════ MODAL ═══════════════════════════════ -->
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <div class="modal-title">Connect your wallet</div>
@@ -326,66 +808,160 @@ sudo systemctl start solgrid</pre><button class="copy-btn" onclick="cp(this)">Co
     <div class="sc-step"><div class="sc-num">1</div><div class="sc-text"><strong>Get SGRID tokens</strong> — 1,000,000 required to earn. Token launching soon.</div></div>
     <div class="sc-step" style="margin-top:8px"><div class="sc-num">2</div><div class="sc-text"><strong>Set up your prover</strong> — follow the setup guide, takes 10 minutes.</div></div>
     <div class="sc-step" style="margin-top:8px"><div class="sc-num">3</div><div class="sc-text"><strong>Come back at launch</strong> — connect Phantom and register in one click.</div></div>
-    <button class="btn-block" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[3]);document.getElementById('modal').classList.remove('open')">Go to setup guide →</button>
+    <button class="btn-block" onclick="show('guide',document.querySelectorAll('.nav-desktop a')[5]);document.getElementById('modal').classList.remove('open')">Go to setup guide →</button>
     <button class="modal-close-btn" onclick="document.getElementById('modal').classList.remove('open')">Close</button>
   </div>
 </div>
+
 <script>
-  
+// ── API ──────────────────────────────────────────────────────────────────────
 async function fetchStats() {
   try {
     const res = await fetch('https://solgrid-api-production.up.railway.app/api/stats');
     const data = await res.json();
-    
-    // Update stats
-    document.querySelectorAll('.stat-val')[0].textContent = data.activeNodes;
-    document.querySelectorAll('.stat-val')[2].textContent = data.totalPoints.toLocaleString();
-    document.querySelectorAll('.stat-val')[3].textContent = data.passRate ? data.passRate + '%' : '—';
-    
-    // Update ticker
-    document.querySelectorAll('.tick-val')[0].textContent = data.activeNodes;
-    document.querySelectorAll('.tick-val')[3].textContent = data.passRate ? data.passRate + '%' : '—';
-  } catch(e) {
-    console.log('API error:', e);
-  }
+    document.getElementById('stat-nodes').textContent = data.activeNodes || 0;
+    document.getElementById('stat-points').textContent = (data.totalPoints || 0).toLocaleString();
+    document.getElementById('stat-passrate').textContent = data.passRate ? data.passRate + '%' : '—';
+    updateEarningsWidget(data);
+  } catch(e) { console.log('API error:', e); }
 }
-
 fetchStats();
 setInterval(fetchStats, 30000);
 
-
-
-
-
-
-
-
-function show(id,el){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sec-'+id).classList.add('active');
-  document.querySelectorAll('.nav-desktop a,.nav-drawer a').forEach(a=>a.classList.remove('active'));
-  if(el)el.classList.add('active');
-  window.scrollTo(0,0);
+// ── EARNINGS WIDGET ──────────────────────────────────────────────────────────
+function updateEarningsWidget(data) {
+  const nodes = data.activeNodes || 0;
+  const pool = 10; // placeholder until real pool set
+  const passRate = (data.passRate || 94) / 100;
+  // Simulate daily earnings: pool * (days_passed/7) = fraction of weekly
+  const dayOfWeek = new Date().getDay(); // 0=Sun
+  const daysIn = dayOfWeek === 0 ? 7 : dayOfWeek;
+  const todayPool = nodes > 0 ? (pool * (1/7)).toFixed(3) : '—';
+  const weekPool = nodes > 0 ? (pool * (daysIn/7)).toFixed(3) : '—';
+  const perNode = nodes > 0 ? (pool * (1/7) / nodes).toFixed(4) : '—';
+  document.getElementById('ew-today').textContent = nodes > 0 ? todayPool + ' SOL' : '—';
+  document.getElementById('ew-week').textContent = nodes > 0 ? weekPool + ' SOL' : '—';
+  document.getElementById('ew-pernode').textContent = nodes > 0 ? perNode + ' SOL' : '—';
+  document.getElementById('ew-rate').textContent = '—';
+  renderSparkline(nodes);
 }
-function toggleMenu(){document.getElementById('drawer').classList.toggle('open')}
-function closeMenu(){document.getElementById('drawer').classList.remove('open')}
-function openModal(){document.getElementById('modal').classList.add('open')}
-function setOS(os,btn){
-  document.querySelectorAll('.os-btn').forEach(b=>b.classList.remove('active'));
+
+function renderSparkline(nodes) {
+  const container = document.getElementById('sparkline-container');
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const today = new Date().getDay();
+  const todayIdx = today === 0 ? 6 : today - 1;
+  const bars = days.map((d, i) => {
+    const active = i <= todayIdx;
+    const h = active ? (20 + Math.random() * 30).toFixed(0) : 10;
+    const isToday = i === todayIdx;
+    return `<div style="position:absolute;bottom:0;left:${8 + i*42}px;width:34px;height:${h}px;border-radius:3px 3px 0 0;background:${isToday ? 'var(--green)' : active ? 'var(--gl)' : 'var(--bg3)'};display:flex;align-items:flex-end;justify-content:center"><span style="font-size:9px;color:${isToday ? 'var(--bg)' : 'var(--t3)'};position:absolute;bottom:${parseInt(h)+2}px;white-space:nowrap">${d}</span></div>`;
+  });
+  container.innerHTML = bars.join('');
+}
+
+// ── CALCULATOR ───────────────────────────────────────────────────────────────
+function calcNetworkLabel() {
+  const v = document.getElementById('calc-network').value;
+  document.getElementById('calc-network-label').textContent = v + ' nodes';
+}
+function calcNetworkLabel2() {
+  const v = document.getElementById('calc-network2').value;
+  document.getElementById('calc-network-label2').textContent = v + ' nodes';
+}
+
+function doCalc(nodes, pool, network) {
+  const share = nodes / network;
+  const weekly = pool * share;
+  const monthly = weekly * 4.33;
+  const usd = monthly * 140;
+  return { weekly, monthly, share, usd };
+}
+
+function calcEarnings() {
+  const nodes = parseFloat(document.getElementById('calc-nodes').value) || 1;
+  const pool = parseFloat(document.getElementById('calc-pool').value) || 10;
+  const network = parseFloat(document.getElementById('calc-network').value) || 500;
+  const r = doCalc(nodes, pool, network);
+  document.getElementById('cr-week').textContent = r.weekly.toFixed(3);
+  document.getElementById('cr-month').textContent = r.monthly.toFixed(2);
+  document.getElementById('cr-share').textContent = (r.share * 100).toFixed(2) + '%';
+  document.getElementById('cr-usd').textContent = '$' + r.usd.toFixed(0);
+}
+
+function calcEarnings2() {
+  const nodes = parseFloat(document.getElementById('calc-nodes2').value) || 5;
+  const pool = parseFloat(document.getElementById('calc-pool2').value) || 50;
+  const network = parseFloat(document.getElementById('calc-network2').value) || 500;
+  // Apply tier multiplier
+  let mult = 1;
+  if (nodes >= 20) mult = 2;
+  else if (nodes >= 5) mult = 1.5;
+  const r = doCalc(nodes * mult, pool, network * mult + (nodes * mult - nodes));
+  document.getElementById('cr2-week').textContent = r.weekly.toFixed(3);
+  document.getElementById('cr2-month').textContent = r.monthly.toFixed(2);
+  document.getElementById('cr2-share').textContent = (r.share * 100).toFixed(2) + '%';
+  document.getElementById('cr2-usd').textContent = '$' + r.usd.toFixed(0);
+}
+
+// Init calculators
+calcEarnings();
+calcEarnings2();
+calcNetworkLabel();
+calcNetworkLabel2();
+
+// ── REFERRAL ─────────────────────────────────────────────────────────────────
+function copyRefLink() {
+  const link = 'https://solgrid.io/r/YOURCODE';
+  navigator.clipboard.writeText(link).then(() => {
+    const btn = document.querySelector('.ref-copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy link', 2000);
+  });
+}
+
+// ── NAV ──────────────────────────────────────────────────────────────────────
+function show(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelectorAll('.nav-desktop a, .nav-drawer a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showSub(section, sub, el) {
+  const prefix = 'sub-' + section + '-';
+  document.querySelectorAll('[id^="' + prefix + '"]').forEach(s => s.classList.remove('active'));
+  document.getElementById(prefix + sub).classList.add('active');
+  el.closest('.sub-tabs').querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggleMenu() { document.getElementById('drawer').classList.toggle('open'); }
+function closeMenu() { document.getElementById('drawer').classList.remove('open'); }
+function openModal() { document.getElementById('modal').classList.add('open'); }
+
+function setOS(os, btn) {
+  document.querySelectorAll('.os-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  ['s2','s3','s4','s5'].forEach(s=>{
-    ['mac','win','linux'].forEach(o=>{
-      var el=document.getElementById(s+o);
-      if(el)el.style.display=o===os?'block':'none';
+  ['s2','s3','s4','s5'].forEach(s => {
+    ['mac','win','linux'].forEach(o => {
+      const el = document.getElementById(s + o);
+      if (el) el.style.display = o === os ? 'block' : 'none';
     });
   });
 }
-function cp(btn){
-  var pre=btn.parentElement.querySelector('pre');
-  if(pre)navigator.clipboard.writeText(pre.innerText).then(function(){
-    btn.textContent='Copied!';
-    setTimeout(function(){btn.textContent='Copy'},2000);
+
+function cp(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  if (pre) navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
   });
+}
+
+function filterNodes() {
+  // Placeholder — will filter once real node data loads
 }
 </script>
 </body>
