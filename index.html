@@ -3,177 +3,372 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SolGrid — Decentralized Node Network</title>
+<title>SolGrid — Run a Node. Earn SOL.</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;--bg:#ffffff;--bg2:#f7f8fa;--bg3:#f0f2f4;--text:#111827;--text2:#6b7280;--text3:#9ca3af;--border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.13);--r:8px;--rl:12px;--rxl:16px}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);min-height:100vh}
-nav{background:var(--bg);border-bottom:0.5px solid var(--border2);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
-.logo{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--text);text-decoration:none}
+:root{
+  --green:#1D9E75;--gl:#E1F5EE;--gd:#0F6E56;
+  --bg:#fff;--bg2:#f7f8fa;--bg3:#f0f2f4;
+  --text:#111827;--t2:#6b7280;--t3:#9ca3af;
+  --b:rgba(0,0,0,0.07);--b2:rgba(0,0,0,0.13);
+  --r:8px;--rl:12px;--rxl:16px
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text)}
+a{text-decoration:none;color:inherit}
+.notify{background:#FFF8E7;border-bottom:0.5px solid #F5D06B;padding:10px 2rem;text-align:center;font-size:13px;color:#7A5C00;display:flex;align-items:center;justify-content:center;gap:8px}
+.notify-x{cursor:pointer;opacity:0.5;font-size:16px;margin-left:8px}
+nav{background:var(--bg);border-bottom:0.5px solid var(--b2);padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--text)}
 .logo-dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
 .nav-links{display:flex;gap:2rem}
-.nav-links a{font-size:13px;color:var(--text2);text-decoration:none;cursor:pointer}
-.nav-links a.active{color:var(--text);font-weight:500}
-.badge-soon{font-size:11px;color:var(--text3);background:var(--bg2);border:0.5px solid var(--border2);border-radius:20px;padding:3px 10px}
-.btn-connect{background:var(--green);color:white;border:none;border-radius:var(--r);padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer}
-.hero{background:var(--bg);border-bottom:0.5px solid var(--border);padding:5rem 2.5rem 4rem}
-.hero-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:5rem;align-items:center}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:0.08em;color:var(--green-dark);text-transform:uppercase;background:var(--green-light);border-radius:20px;padding:4px 12px;margin-bottom:1.5rem}
-.hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
-.hero-title{font-size:46px;font-weight:700;line-height:1.1;color:var(--text);margin-bottom:1.25rem;letter-spacing:-0.02em}
-.hero-title span{color:var(--green)}
-.hero-sub{font-size:16px;color:var(--text2);line-height:1.75;margin-bottom:2.5rem;max-width:440px}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--green);color:white;border:none;border-radius:var(--r);padding:13px 26px;font-size:14px;font-weight:500;cursor:pointer}
-.btn-outline{background:transparent;color:var(--text);border:0.5px solid var(--border2);border-radius:var(--r);padding:13px 26px;font-size:14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.stat-card{background:var(--bg2);border-radius:var(--rl);padding:1.4rem 1.25rem;border:0.5px solid var(--border)}
-.stat-value{font-size:30px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-0.02em}
-.stat-value.green{color:var(--green)}
-.stat-label{font-size:12px;color:var(--text2)}
-.stat-note{font-size:11px;color:var(--text3);margin-top:4px}
-.ticker{background:var(--bg);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:1.25rem 2.5rem}
-.ticker-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
-.tick-val{font-size:22px;font-weight:600;color:var(--text)}
-.tick-val.green{color:var(--green)}
-.tick-label{font-size:12px;color:var(--text2);margin-top:3px}
-.steps-section{padding:4rem 2.5rem;max-width:1080px;margin:0 auto}
-.section-eyebrow{font-size:11px;letter-spacing:0.08em;color:var(--text3);text-transform:uppercase;margin-bottom:0.5rem}
-.section-heading{font-size:26px;font-weight:700;color:var(--text);margin-bottom:2.5rem;letter-spacing:-0.01em}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.step{background:var(--bg);border-radius:var(--rl);padding:1.75rem;border:0.5px solid var(--border)}
-.step-num{width:34px;height:34px;border-radius:50%;background:var(--green-light);color:var(--green-dark);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
-.step-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px}
-.step-desc{font-size:13px;color:var(--text2);line-height:1.65}
-.step-code{font-size:11px;font-family:monospace;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:8px 12px;margin-top:12px;color:var(--text2);word-break:break-all}
-.explorer-section{padding:0 2.5rem 4rem;max-width:1080px;margin:0 auto}
-.explorer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-.explorer-title{font-size:18px;font-weight:600;color:var(--text)}
-.live-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green);background:var(--green-light);padding:4px 12px;border-radius:20px}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.table-wrap{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--border);overflow:hidden}
-.table-head{display:grid;grid-template-columns:44px 1fr 130px 110px 90px 80px;gap:1rem;padding:11px 1.25rem;background:var(--bg2);border-bottom:0.5px solid var(--border)}
-.table-head span{font-size:11px;color:var(--text3);font-weight:500;letter-spacing:0.05em;text-transform:uppercase}
-.empty-state{padding:4rem 2rem;text-align:center}
+.nav-links a{font-size:13px;color:var(--t2);cursor:pointer;padding-bottom:2px;border-bottom:2px solid transparent;transition:all 0.15s}
+.nav-links a.active,.nav-links a:hover{color:var(--text);font-weight:500}
+.nav-links a.active{border-bottom-color:var(--green)}
+.badge{font-size:11px;color:var(--t3);background:var(--bg2);border:0.5px solid var(--b2);border-radius:20px;padding:3px 10px}
+.btn-green{background:var(--green);color:white;border:none;border-radius:var(--r);padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;transition:background 0.15s}
+.btn-green:hover{background:var(--gd)}
+.section{display:none}
+.section.active{display:block}
+.explain-banner{background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);padding:3rem 2.5rem;color:white}
+.explain-inner{max-width:1080px;margin:0 auto}
+.explain-tag{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;opacity:0.7;margin-bottom:1rem}
+.explain-title{font-size:38px;font-weight:700;line-height:1.15;margin-bottom:1.25rem;letter-spacing:-0.02em}
+.explain-title span{opacity:0.75}
+.explain-desc{font-size:16px;line-height:1.8;opacity:0.9;max-width:700px;margin-bottom:2rem}
+.explain-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:2rem}
+.explain-card{background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--rl);padding:1.25rem}
+.explain-card-icon{font-size:24px;margin-bottom:10px}
+.explain-card-title{font-size:14px;font-weight:600;margin-bottom:6px}
+.explain-card-desc{font-size:12px;opacity:0.8;line-height:1.6}
+.hero-stats-bar{background:var(--bg);border-bottom:0.5px solid var(--b);padding:1.5rem 2.5rem}
+.stats-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
+.stat-val{font-size:26px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.stat-val.green{color:var(--green)}
+.stat-lbl{font-size:12px;color:var(--t2);margin-top:4px}
+.dash-body{max-width:1080px;margin:0 auto;padding:2.5rem;display:grid;grid-template-columns:1fr 360px;gap:2rem}
+.card{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);overflow:hidden;margin-bottom:1.5rem}
+.card-head{padding:1rem 1.25rem;border-bottom:0.5px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:14px;font-weight:600;color:var(--text)}
+.live-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:var(--gl);padding:3px 10px;border-radius:20px}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.table-head{display:grid;grid-template-columns:36px 1fr 110px 100px 80px 70px;gap:1rem;padding:9px 1.25rem;background:var(--bg2)}
+.table-head span{font-size:10px;color:var(--t3);font-weight:500;letter-spacing:0.06em;text-transform:uppercase}
+.empty{padding:3.5rem 2rem;text-align:center}
 .empty-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px}
-.empty-sub{font-size:13px;color:var(--text2)}
-.cta-section{background:var(--bg);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:5rem 2.5rem}
-.cta-inner{max-width:560px;margin:0 auto;text-align:center}
-.cta-title{font-size:30px;font-weight:700;color:var(--text);margin-bottom:1rem;letter-spacing:-0.02em}
-.cta-sub{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:2rem}
-.cta-pills{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
-.pill{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;padding:6px 14px}
-.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
-footer{padding:2rem 2.5rem;text-align:center;font-size:12px;color:var(--text3);border-top:0.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;gap:2rem}
-footer a{color:var(--text3);text-decoration:none}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center}
+.empty-sub{font-size:13px;color:var(--t2);margin-bottom:1.25rem}
+.btn-outline{background:transparent;color:var(--text);border:0.5px solid var(--b2);border-radius:var(--r);padding:9px 20px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.sidebar-card{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:1.25rem;margin-bottom:1rem}
+.sc-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:1rem}
+.sc-step{display:flex;gap:10px;margin-bottom:12px;align-items:flex-start}
+.sc-num{width:24px;height:24px;border-radius:50%;background:var(--gl);color:var(--gd);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-text{font-size:13px;color:var(--t2);line-height:1.5}
+.sc-text strong{color:var(--text);font-weight:500}
+.btn-block{display:block;width:100%;background:var(--green);color:white;border:none;border-radius:var(--r);padding:11px;font-size:13px;font-weight:500;cursor:pointer;text-align:center;margin-top:12px}
+.btn-block:hover{background:var(--gd)}
+.reward-card{background:var(--bg2);border-radius:var(--rl);padding:1.25rem}
+.rc-label{font-size:12px;color:var(--t2);margin-bottom:6px}
+.rc-value{font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px}
+.rc-note{font-size:11px;color:var(--t3)}
+.explorer-wrap{max-width:1080px;margin:0 auto;padding:2.5rem}
+.exp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.exp-title{font-size:20px;font-weight:700;color:var(--text)}
+.exp-sub{font-size:13px;color:var(--t2);margin-top:3px}
+.search-bar{display:flex;gap:10px;margin-bottom:1.5rem}
+.search-bar input{flex:1;padding:9px 14px;border:0.5px solid var(--b2);border-radius:var(--r);font-size:13px;background:var(--bg);color:var(--text);outline:none}
+.search-bar input:focus{border-color:var(--green)}
+.lb-wrap{max-width:1080px;margin:0 auto;padding:2.5rem}
+.lb-head{margin-bottom:2rem}
+.lb-title{font-size:20px;font-weight:700;color:var(--text)}
+.lb-sub{font-size:13px;color:var(--t2);margin-top:4px}
+.lb-empty{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:4rem 2rem;text-align:center}
+.guide-wrap{max-width:800px;margin:0 auto;padding:2.5rem}
+.guide-title{font-size:24px;font-weight:700;color:var(--text);margin-bottom:0.5rem}
+.guide-sub{font-size:14px;color:var(--t2);margin-bottom:2rem;line-height:1.6}
+.os-toggle{display:flex;background:var(--bg2);border:0.5px solid var(--b2);border-radius:var(--r);padding:4px;margin-bottom:2rem;width:fit-content}
+.os-btn{padding:7px 20px;border-radius:6px;font-size:13px;cursor:pointer;border:none;background:transparent;color:var(--t2);font-weight:500;transition:all 0.15s}
+.os-btn.active{background:var(--bg);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.guide-step{background:var(--bg);border-radius:var(--rl);border:0.5px solid var(--b);padding:1.5rem;margin-bottom:1rem}
+.gs-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.gs-num{width:30px;height:30px;border-radius:50%;background:var(--gl);color:var(--gd);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gs-title{font-size:15px;font-weight:600;color:var(--text)}
+.gs-desc{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:1rem}
+.code-block{background:#1a1a2e;border-radius:var(--r);padding:1rem 1.25rem;position:relative;margin-top:10px}
+.code-block pre{font-size:12px;font-family:monospace;color:#e2e8f0;line-height:1.7;white-space:pre-wrap;word-break:break-all}
+.copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.1);color:#e2e8f0;border:none;border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer}
+.copy-btn:hover{background:rgba(255,255,255,0.2)}
+.gs-note{font-size:12px;color:var(--t3);background:var(--bg2);border-radius:var(--r);padding:10px 12px;margin-top:10px;border-left:3px solid var(--green)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
-.modal{background:var(--bg);border-radius:var(--rxl);padding:2rem;width:100%;max-width:420px;border:0.5px solid var(--border2)}
+.modal{background:var(--bg);border-radius:var(--rxl);padding:2rem;width:100%;max-width:440px;border:0.5px solid var(--b2)}
 .modal-title{font-size:17px;font-weight:600;color:var(--text);margin-bottom:0.5rem}
-.modal-sub{font-size:13px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6}
-.modal-step{display:flex;gap:10px;margin-bottom:14px;align-items:flex-start}
-.modal-step-num{width:24px;height:24px;border-radius:50%;background:var(--green-light);color:var(--green-dark);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.modal-step-text{font-size:13px;color:var(--text2);line-height:1.5}
-.modal-step-text strong{color:var(--text);font-weight:500}
-.modal-close{width:100%;background:transparent;color:var(--text2);border:0.5px solid var(--border2);border-radius:var(--r);padding:10px;font-size:13px;cursor:pointer;margin-top:1rem}
-.notify-bar{background:#FFF8E7;border-bottom:0.5px solid #F5D06B;padding:10px 2.5rem;text-align:center;font-size:13px;color:#7A5C00}
+.modal-sub{font-size:13px;color:var(--t2);margin-bottom:1.5rem;line-height:1.6}
+.modal-close-btn{width:100%;background:transparent;color:var(--t2);border:0.5px solid var(--b2);border-radius:var(--r);padding:10px;font-size:13px;cursor:pointer;margin-top:1rem}
 </style>
 </head>
 <body>
-<div class="notify-bar">
-  SolGrid is in early access. Token launch coming soon — register your node now to earn from day one.
-  <span style="margin-left:12px;cursor:pointer;opacity:0.5" onclick="this.parentElement.style.display='none'">x</span>
+<div class="notify" id="nb">
+  SolGrid is in early access — token launch coming soon. Register your node now to earn from day one.
+  <span class="notify-x" onclick="document.getElementById('nb').style.display='none'">x</span>
 </div>
 <nav>
-  <a class="logo" href="#"><div class="logo-dot"></div>SolGrid</a>
+  <div class="logo"><div class="logo-dot"></div>SolGrid</div>
   <div class="nav-links">
-    <a class="active">Dashboard</a>
-    <a>Explorer</a>
-    <a>Leaderboard</a>
-    <a href="https://github.com/Dumbeecoder/solgrid-prover" target="_blank">Docs</a>
+    <a class="active" onclick="show('dashboard',this)">Dashboard</a>
+    <a onclick="show('explorer',this)">Explorer</a>
+    <a onclick="show('leaderboard',this)">Leaderboard</a>
+    <a onclick="show('guide',this)">Setup Guide</a>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span class="badge-soon">Mainnet soon</span>
-    <button class="btn-connect" onclick="document.getElementById('modalRegister').classList.add('open')">Connect wallet</button>
+    <span class="badge">Mainnet soon</span>
+    <button class="btn-green" onclick="openModal()">Connect wallet</button>
   </div>
 </nav>
-<div class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div>Solana DePIN network</div>
-      <h1 class="hero-title">Run a node.<br><span>Earn SOL.</span></h1>
-      <p class="hero-sub">Point your prover at any synced Solana RPC. Pass challenges every 5 minutes. Claim weekly rewards on-chain. No local node required.</p>
-      <div class="hero-actions">
-        <button class="btn-primary" onclick="document.getElementById('modalRegister').classList.add('open')">Register my node</button>
-        <a class="btn-outline" href="https://github.com/Dumbeecoder/solgrid-prover" target="_blank">Download prover</a>
+
+<div class="section active" id="sec-dashboard">
+  <div class="explain-banner">
+    <div class="explain-inner">
+      <div class="explain-tag">What is SolGrid?</div>
+      <div class="explain-title">Your computer becomes a<br><span>crypto-earning machine.</span></div>
+      <div class="explain-desc">Think of SolGrid like a game where your computer helps check that the Solana blockchain is working correctly. Every 5 minutes, SolGrid asks your computer a question like "what happened at block #12345?" — your computer answers, proves it knows the answer, and earns points. At the end of every week, those points turn into real SOL sent directly to your wallet. You don't need to be a programmer. Just download a small app, paste two lines of code, and let it run.</div>
+      <div class="explain-cards">
+        <div class="explain-card"><div class="explain-card-icon">🖥️</div><div class="explain-card-title">Run a tiny app</div><div class="explain-card-desc">Download the prover — a small program that runs in your terminal. Set it and forget it.</div></div>
+        <div class="explain-card"><div class="explain-card-icon">✅</div><div class="explain-card-title">Pass challenges automatically</div><div class="explain-card-desc">Every 5 minutes it answers a question about the Solana blockchain. No action needed from you.</div></div>
+        <div class="explain-card"><div class="explain-card-icon">💰</div><div class="explain-card-title">Earn SOL every week</div><div class="explain-card-desc">Your points convert to real SOL every Sunday. Claim it directly to your Phantom wallet.</div></div>
       </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">Active nodes</div><div class="stat-note">Be among the first</div></div>
-      <div class="stat-card"><div class="stat-value green">TBA</div><div class="stat-label">Weekly reward pool</div><div class="stat-note">Launches with token</div></div>
-      <div class="stat-card"><div class="stat-value">—</div><div class="stat-label">Challenge pass rate</div><div class="stat-note">Network average</div></div>
-      <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">Total points issued</div><div class="stat-note">Across all nodes</div></div>
+  </div>
+  <div class="hero-stats-bar">
+    <div class="stats-inner">
+      <div><div class="stat-val">0</div><div class="stat-lbl">Active nodes</div></div>
+      <div><div class="stat-val green">TBA</div><div class="stat-lbl">Weekly SOL pool</div></div>
+      <div><div class="stat-val">0</div><div class="stat-lbl">Total points issued</div></div>
+      <div><div class="stat-val">—</div><div class="stat-lbl">Avg pass rate</div></div>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Active nodes</div><div class="live-pill"><div class="live-dot"></div>Live</div></div>
+        <div class="table-head"><span>#</span><span>Node ID</span><span>Status</span><span>Type</span><span>Points</span><span>Uptime</span></div>
+        <div class="empty">
+          <div class="empty-title">No nodes registered yet</div>
+          <div class="empty-sub">Be the first node on SolGrid and earn the most points at launch</div>
+          <button class="btn-outline" onclick="show('guide',document.querySelectorAll('.nav-links a')[3])">View setup guide →</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="sidebar-card">
+        <div class="sc-title">Start earning in 3 steps</div>
+        <div class="sc-step"><div class="sc-num">1</div><div class="sc-text"><strong>Hold 1M SGRID tokens</strong> — required to earn rewards. Token launching soon.</div></div>
+        <div class="sc-step"><div class="sc-num">2</div><div class="sc-text"><strong>Run the prover</strong> — a small terminal app. Works on Mac, Windows, Linux.</div></div>
+        <div class="sc-step"><div class="sc-num">3</div><div class="sc-text"><strong>Earn SOL weekly</strong> — points convert to real SOL every Sunday.</div></div>
+        <button class="btn-block" onclick="show('guide',document.querySelectorAll('.nav-links a')[3])">View full setup guide →</button>
+      </div>
+      <div class="sidebar-card">
+        <div class="sc-title">Your estimated reward</div>
+        <div class="reward-card"><div class="rc-label">This week</div><div class="rc-value">— SOL</div><div class="rc-note">Connect wallet to see your balance</div></div>
+        <button class="btn-block" onclick="openModal()" style="background:transparent;color:var(--green);border:0.5px solid var(--green);margin-top:10px">Connect wallet</button>
+      </div>
     </div>
   </div>
 </div>
-<div class="ticker">
-  <div class="ticker-inner">
-    <div><div class="tick-val">0</div><div class="tick-label">Nodes online</div></div>
-    <div><div class="tick-val green">TBA</div><div class="tick-label">This week pool</div></div>
-    <div><div class="tick-val">—</div><div class="tick-label">Next snapshot</div></div>
-    <div><div class="tick-val">—</div><div class="tick-label">Network pass rate</div></div>
-  </div>
-</div>
-<div class="steps-section">
-  <div class="section-eyebrow">How it works</div>
-  <div class="section-heading">Three steps to earn</div>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><div class="step-title">Connect wallet and hold SGRID</div><div class="step-desc">Connect your Phantom or any Solana wallet. Hold 1,000,000 SGRID tokens to activate earning. No staking lockup required.</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-title">Run the prover</div><div class="step-desc">Download the open-source prover binary from GitHub. Point it at any synced Solana RPC — public endpoints work fine. No local node needed.</div><div class="step-code">export NODE_RPC="https://api.mainnet-beta.solana.com"<br>./prover</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-title">Pass challenges and claim SOL</div><div class="step-desc">Every 5 minutes the prover answers a random chain challenge. Points accrue weekly and convert to SOL you claim on-chain via Merkle proof.</div></div>
-  </div>
-</div>
-<div class="explorer-section">
-  <div class="explorer-head">
-    <div class="explorer-title">Node explorer</div>
-    <div class="live-badge"><div class="live-dot"></div>Live</div>
-  </div>
-  <div class="table-wrap">
-    <div class="table-head"><span>#</span><span>Node ID</span><span>Status</span><span>Type</span><span>Points</span><span>Uptime</span></div>
-    <div class="empty-state">
-      <div class="empty-title">No nodes registered yet</div>
-      <div class="empty-sub">Be the first to register and earn from day one</div>
+
+<div class="section" id="sec-explorer">
+  <div class="explorer-wrap">
+    <div class="exp-head"><div><div class="exp-title">Node explorer</div><div class="exp-sub">All registered nodes and their stats in real time</div></div><div class="live-pill"><div class="live-dot"></div>Live</div></div>
+    <div class="search-bar"><input type="text" placeholder="Search by node ID or wallet address..."><button class="btn-green">Search</button></div>
+    <div class="card">
+      <div class="table-head"><span>#</span><span>Node ID</span><span>Status</span><span>Type</span><span>Points</span><span>Uptime</span></div>
+      <div class="empty"><div class="empty-title">No nodes registered yet</div><div class="empty-sub">The explorer will populate once nodes come online at launch</div></div>
     </div>
   </div>
 </div>
-<div class="cta-section">
-  <div class="cta-inner">
-    <div class="cta-title">Start earning today</div>
-    <p class="cta-sub">Join the SolGrid network at launch. Run a prover, pass challenges, earn SOL weekly. Early nodes earn the most.</p>
-    <div class="cta-pills">
-      <div class="pill"><div class="pill-dot"></div>Hold 1M SGRID</div>
-      <div class="pill"><div class="pill-dot"></div>Any Solana RPC</div>
-      <div class="pill"><div class="pill-dot"></div>Earn SOL weekly</div>
+
+<div class="section" id="sec-leaderboard">
+  <div class="lb-wrap">
+    <div class="lb-head"><div class="lb-title">Leaderboard</div><div class="lb-sub">Top earning nodes ranked by total points this week</div></div>
+    <div class="lb-empty">
+      <div style="font-size:32px;margin-bottom:1rem">🏆</div>
+      <div class="empty-title">Leaderboard starts at launch</div>
+      <div class="empty-sub" style="margin-bottom:1.5rem">Register your node now — early nodes will dominate the first leaderboard</div>
+      <button class="btn-green" onclick="show('guide',document.querySelectorAll('.nav-links a')[3])">Set up my node →</button>
     </div>
-    <button class="btn-primary" onclick="document.getElementById('modalRegister').classList.add('open')" style="font-size:15px;padding:14px 32px">Register my node</button>
   </div>
 </div>
-<footer>
-  <span>SolGrid - Decentralized Solana Infrastructure - 2026</span>
-  <a href="https://github.com/Dumbeecoder/solgrid-prover" target="_blank">GitHub</a>
-</footer>
-<div class="modal-overlay" id="modalRegister" onclick="if(event.target===this)this.classList.remove('open')">
+
+<div class="section" id="sec-guide">
+  <div class="guide-wrap">
+    <div class="guide-title">Setup guide</div>
+    <div class="guide-sub">Follow these steps exactly and you will be earning SOL in under 10 minutes. No experience needed — just copy and paste the commands below.</div>
+    <div class="os-toggle">
+      <button class="os-btn active" onclick="setOS('mac',this)">🍎 Mac</button>
+      <button class="os-btn" onclick="setOS('win',this)">🪟 Windows</button>
+      <button class="os-btn" onclick="setOS('linux',this)">🐧 Linux</button>
+    </div>
+    <div class="guide-step">
+      <div class="gs-header"><div class="gs-num">1</div><div class="gs-title">Create a free Solana wallet</div></div>
+      <div class="gs-desc">You need a wallet to receive your SOL rewards. Phantom is the easiest — it's a free browser extension. Your wallet has an address (like a bank account number) and a private key (like your PIN — never share this with anyone).</div>
+      <div class="code-block"><pre>1. Go to phantom.app and click Download
+2. Install the browser extension
+3. Click Create new wallet
+4. Write down your 12-word recovery phrase on paper and keep it safe
+5. Your wallet address looks like: 7xKXt... (a mix of letters and numbers)
+6. You will need this address to register your node</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div>
+      <div class="gs-note">Already have a Phantom wallet? Skip this step. You can use your existing wallet.</div>
+    </div>
+    <div class="guide-step">
+      <div class="gs-header"><div class="gs-num">2</div><div class="gs-title">Install Go (needed to build the prover)</div></div>
+      <div class="gs-desc">Go is a programming language the prover is built with. You only need to install it once — think of it like installing a driver for your printer.</div>
+      <div id="s2mac"><div class="code-block"><pre># Install Homebrew first (a Mac package manager)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Then install Go
+brew install go
+
+# Confirm it worked
+go version</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">Open Terminal: press Cmd+Space, type Terminal, press Enter. Then paste the commands above one at a time.</div></div>
+      <div id="s2win" style="display:none"><div class="code-block"><pre>1. Go to https://go.dev/dl/
+2. Download the Windows .msi installer
+3. Run it and click Next through everything
+4. Close and reopen PowerShell
+5. Confirm it worked by typing:
+
+go version</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">Use PowerShell for all commands — NOT Command Prompt. Press Windows key, type PowerShell, click it.</div></div>
+      <div id="s2linux" style="display:none"><div class="code-block"><pre>sudo apt update && sudo apt install -y golang-go git
+go version</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
+    </div>
+    <div class="guide-step">
+      <div class="gs-header"><div class="gs-num">3</div><div class="gs-title">Download and build the prover</div></div>
+      <div class="gs-desc">The prover is the small app that runs on your computer and earns you SOL. We download it from GitHub and build it — takes about 2 minutes.</div>
+      <div id="s3mac"><div class="code-block"><pre>git clone https://github.com/Dumbeecoder/solgrid-prover
+cd solgrid-prover
+go build -o prover ./cmd/prover</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
+      <div id="s3win" style="display:none"><div class="code-block"><pre>git clone https://github.com/Dumbeecoder/solgrid-prover
+cd solgrid-prover
+go build -o prover.exe ./cmd/prover</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
+      <div id="s3linux" style="display:none"><div class="code-block"><pre>git clone https://github.com/Dumbeecoder/solgrid-prover
+cd solgrid-prover
+go build -o prover ./cmd/prover</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
+      <div class="gs-note">You will see text scrolling for 1-2 minutes — that is normal. Wait until it returns to a blank line.</div>
+    </div>
+    <div class="guide-step">
+      <div class="gs-header"><div class="gs-num">4</div><div class="gs-title">Run the prover and start earning</div></div>
+      <div class="gs-desc">Now we start the prover with your wallet key. It connects to Solana's free public servers automatically — no extra setup needed.</div>
+      <div id="s4mac"><div class="code-block"><pre># Replace YOUR_PRIVATE_KEY with your key from Phantom
+# Phantom: Settings > Security and Privacy > Export Private Key
+
+export PROVER_PRIVATE_KEY="YOUR_PRIVATE_KEY"
+export NODE_RPC="https://api.mainnet-beta.solana.com"
+export SOLGRID_API="https://api.solgrid.io/api"
+export NODE_TYPE="sol-full"
+
+./prover</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">🔒 Your private key never leaves your computer. It only signs messages to prove the node is yours.</div></div>
+      <div id="s4win" style="display:none"><div class="code-block"><pre># Replace YOUR_PRIVATE_KEY with your key from Phantom
+# Phantom: Settings > Security and Privacy > Export Private Key
+
+$env:PROVER_PRIVATE_KEY="YOUR_PRIVATE_KEY"
+$env:NODE_RPC="https://api.mainnet-beta.solana.com"
+$env:SOLGRID_API="https://api.solgrid.io/api"
+$env:NODE_TYPE="sol-full"
+
+.\prover.exe</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">🔒 Your private key never leaves your computer. It only signs messages to prove the node is yours.</div></div>
+      <div id="s4linux" style="display:none"><div class="code-block"><pre>export PROVER_PRIVATE_KEY="YOUR_PRIVATE_KEY"
+export NODE_RPC="https://api.mainnet-beta.solana.com"
+export SOLGRID_API="https://api.solgrid.io/api"
+export NODE_TYPE="sol-full"
+./prover</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
+    </div>
+    <div class="guide-step">
+      <div class="gs-header"><div class="gs-num">5</div><div class="gs-title">Keep it running 24/7</div></div>
+      <div class="gs-desc">The prover must keep running to earn points. If you close the terminal window it stops. Here is how to keep it running.</div>
+      <div id="s5mac"><div class="code-block"><pre># Stop your Mac from sleeping (run before the prover)
+caffeinate -i &
+
+# You will see output like this every 5 minutes:
+# [2026-06-25] Requesting challenge...
+# Challenge: slot-hash (slot #300123)
+# Query time: 145ms
+# PASSED +10 pts (total: 240)</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">For 24/7 earning without keeping your Mac on all the time, rent a cheap VPS on Hetzner.com for around $5/month and run the prover there.</div></div>
+      <div id="s5win" style="display:none"><div class="code-block"><pre># Keep PowerShell open with the prover running
+# You will see output like this every 5 minutes:
+# [2026-06-25] Requesting challenge...
+# Challenge: slot-hash
+# PASSED +10 pts (total: 240)
+
+# To run in background use:
+Start-Process -NoNewWindow .\prover.exe</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div><div class="gs-note">For 24/7 earning without keeping your PC on all the time, rent a cheap Linux VPS on Hetzner.com for around $5/month.</div></div>
+      <div id="s5linux" style="display:none"><div class="code-block"><pre># Create a system service so it runs automatically
+sudo nano /etc/systemd/system/solgrid.service
+
+# Paste this content:
+[Unit]
+Description=SolGrid Prover
+After=network.target
+
+[Service]
+Environment=PROVER_PRIVATE_KEY=YOUR_KEY
+Environment=NODE_RPC=https://api.mainnet-beta.solana.com
+Environment=SOLGRID_API=https://api.solgrid.io/api
+Environment=NODE_TYPE=sol-full
+ExecStart=/root/solgrid-prover/prover
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+# Save and run:
+sudo systemctl enable solgrid
+sudo systemctl start solgrid
+sudo systemctl status solgrid</pre><button class="copy-btn" onclick="cp(this)">Copy</button></div></div>
+    </div>
+    <div style="background:var(--gl);border-radius:var(--rl);padding:1.5rem;text-align:center;margin-top:1rem">
+      <div style="font-size:16px;font-weight:600;color:var(--gd);margin-bottom:8px">You are all set!</div>
+      <div style="font-size:13px;color:var(--gd);margin-bottom:1rem">Your node earns points every 5 minutes. Check back every Sunday to claim your SOL rewards.</div>
+      <button class="btn-green" onclick="show('explorer',document.querySelectorAll('.nav-links a')[1])">View explorer →</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
-    <div class="modal-title">Register your node</div>
-    <div class="modal-sub">SolGrid is in early access. Wallet connect and on-chain registration will go live with the token launch. Set up your prover now so you are ready from day one.</div>
-    <div class="modal-step"><div class="modal-step-num">1</div><div class="modal-step-text"><strong>Get SGRID tokens</strong> — 1,000,000 minimum required to earn. Token launch coming soon.</div></div>
-    <div class="modal-step"><div class="modal-step-num">2</div><div class="modal-step-text"><strong>Download the prover</strong> — open source on GitHub, works on Mac, Linux, and Windows.</div></div>
-    <div class="modal-step"><div class="modal-step-num">3</div><div class="modal-step-text"><strong>Point at any Solana RPC</strong> — use api.mainnet-beta.solana.com or any free endpoint.</div></div>
-    <div class="modal-step"><div class="modal-step-num">4</div><div class="modal-step-text"><strong>Come back at launch</strong> — connect your Phantom wallet and register on-chain in one click.</div></div>
-    <a href="https://github.com/Dumbeecoder/solgrid-prover" target="_blank" class="btn-primary" style="display:block;text-align:center;text-decoration:none;margin-top:1rem;padding:11px">Download prover on GitHub</a>
-    <button class="modal-close" onclick="document.getElementById('modalRegister').classList.remove('open')">Close</button>
+    <div class="modal-title">Connect your wallet</div>
+    <div class="modal-sub">Wallet connect goes live with the token launch. Set up your prover now so you are ready to earn from day one.</div>
+    <div class="sc-step"><div class="sc-num">1</div><div class="sc-text"><strong>Get SGRID tokens</strong> — 1,000,000 required to earn. Token launching soon.</div></div>
+    <div class="sc-step" style="margin-top:10px"><div class="sc-num">2</div><div class="sc-text"><strong>Set up your prover</strong> — follow the setup guide, takes 10 minutes.</div></div>
+    <div class="sc-step" style="margin-top:10px"><div class="sc-num">3</div><div class="sc-text"><strong>Come back at launch</strong> — connect Phantom and register on-chain in one click.</div></div>
+    <button class="btn-block" onclick="show('guide',document.querySelectorAll('.nav-links a')[3]);document.getElementById('modal').classList.remove('open')">Go to setup guide →</button>
+    <button class="modal-close-btn" onclick="document.getElementById('modal').classList.remove('open')">Close</button>
   </div>
 </div>
+
+<script>
+function show(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  if(el)el.classList.add('active');
+  window.scrollTo(0,0);
+}
+function openModal(){document.getElementById('modal').classList.add('open')}
+function setOS(os,btn){
+  document.querySelectorAll('.os-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['mac','win','linux'].forEach(o=>{
+    ['s2','s3','s4','s5'].forEach(s=>{
+      var el=document.getElementById(s+o);
+      if(el)el.style.display=o===os?'block':'none';
+    });
+  });
+}
+function cp(btn){
+  var pre=btn.parentElement.querySelector('pre');
+  if(pre)navigator.clipboard.writeText(pre.innerText).then(function(){
+    btn.textContent='Copied!';
+    setTimeout(function(){btn.textContent='Copy'},2000);
+  });
+}
+</script>
 </body>
 </html>
