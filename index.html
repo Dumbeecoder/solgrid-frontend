@@ -331,6 +331,35 @@ sudo systemctl start solgrid</pre><button class="copy-btn" onclick="cp(this)">Co
   </div>
 </div>
 <script>
+  
+async function fetchStats() {
+  try {
+    const res = await fetch('https://solgrid-api-production.up.railway.app/api/stats');
+    const data = await res.json();
+    
+    // Update stats
+    document.querySelectorAll('.stat-val')[0].textContent = data.activeNodes;
+    document.querySelectorAll('.stat-val')[2].textContent = data.totalPoints.toLocaleString();
+    document.querySelectorAll('.stat-val')[3].textContent = data.passRate ? data.passRate + '%' : '—';
+    
+    // Update ticker
+    document.querySelectorAll('.tick-val')[0].textContent = data.activeNodes;
+    document.querySelectorAll('.tick-val')[3].textContent = data.passRate ? data.passRate + '%' : '—';
+  } catch(e) {
+    console.log('API error:', e);
+  }
+}
+
+fetchStats();
+setInterval(fetchStats, 30000);
+
+
+
+
+
+
+
+
 function show(id,el){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
